@@ -39,7 +39,8 @@ namespace VoipProjectEntities.Application.Profiles
 
             CreateMap<Event, EventListVm>().ConvertUsing<EventVmCustomMapper>();
 
-            CreateMap<Customer, CreateCustomerCommand>().ReverseMap();
+            CreateMap<Customer, CreateCustomerCommand>();
+            CreateMap<Customer, CreateCustomerDto>();
             CreateMap<Customer, UpdateCustomerCommand>().ReverseMap();
             CreateMap<Customer, CustomerDetailVm>().ReverseMap();
 

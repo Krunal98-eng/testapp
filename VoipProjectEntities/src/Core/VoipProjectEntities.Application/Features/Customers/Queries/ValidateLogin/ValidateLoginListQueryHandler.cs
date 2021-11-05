@@ -11,19 +11,19 @@ using VoipProjectEntities.Application.Features.Customers.Queries.GetCustomerList
 using VoipProjectEntities.Application.Responses;
 using VoipProjectEntities.Domain.Entities;
 
-namespace VoipProjectEntities.Application.Features.Customers.Queries.ValidateCustomer
+namespace VoipProjectEntities.Application.Features.Customers.Queries.ValidateLogin
 {
-    public class ValidateCustomerListQueryHandler : IRequestHandler<ValidateCustomerListQuery, Response<IEnumerable<CustomerListVm>>>
+    public class ValidateLoginListQueryHandler : IRequestHandler<ValidateLoginListQuery, Response<IEnumerable<CustomerListVm>>>
     {
         private readonly IAsyncRepository<Customer> _customerRepository;
         private readonly IMapper _mapper;
 
-        public ValidateCustomerListQueryHandler(IMapper mapper, IAsyncRepository<Customer> customerRepository)
+        public ValidateLoginListQueryHandler(IMapper mapper, IAsyncRepository<Customer> customerRepository)
         {
             _mapper = mapper;
             _customerRepository = customerRepository;
         }
-        public async Task<Response<IEnumerable<CustomerListVm>>> Handle(ValidateCustomerListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<CustomerListVm>>> Handle(ValidateLoginListQuery request, CancellationToken cancellationToken)
         {
             var allCustomers = (await _customerRepository.ListAllAsync()).Where(c=>c.CustomerName == request.Username && c.Password == request.Password).OrderBy(x => x.CustomerId);
             var customerList = _mapper.Map<List<CustomerListVm>>(allCustomers);

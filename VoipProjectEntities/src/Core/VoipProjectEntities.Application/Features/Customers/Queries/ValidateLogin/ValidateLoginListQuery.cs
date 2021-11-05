@@ -5,9 +5,9 @@ using System.Text;
 using VoipProjectEntities.Application.Features.Customers.Queries.GetCustomerList;
 using VoipProjectEntities.Application.Responses;
 
-namespace VoipProjectEntities.Application.Features.Customers.Queries.ValidateCustomer
+namespace VoipProjectEntities.Application.Features.Customers.Queries.ValidateLogin
 {
-    public class ValidateCustomerListQuery : IRequest<Response<IEnumerable<CustomerListVm>>>
+    public class ValidateLoginListQuery : IRequest<Response<IEnumerable<CustomerListVm>>>
     {
         public string Username { get; set; }
         public string Password { get; set; }

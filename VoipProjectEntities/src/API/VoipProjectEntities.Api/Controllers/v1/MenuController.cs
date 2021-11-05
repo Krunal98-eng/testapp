@@ -31,7 +31,7 @@ namespace VoipProjectEntities.Api.Controllers.v1
             return Ok(response);
         }
 
-        [HttpGet("all", Name = "GetAllMenu")]
+        [HttpGet("all/{CustomerId}/{IsAccess}", Name = "GetAllMenu")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> GetAllMenu(Guid CustomerId, bool IsAccess)

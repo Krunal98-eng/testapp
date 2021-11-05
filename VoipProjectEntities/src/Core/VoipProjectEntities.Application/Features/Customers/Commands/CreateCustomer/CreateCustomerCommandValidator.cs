@@ -2,17 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using VoipProjectEntities.Application.Contracts.Persistence;
 
 namespace VoipProjectEntities.Application.Features.Customers.Commands.CreateCustomer
 {
     public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
     {
-        private readonly ICustomerRepository _customerRepository;
-        public CreateCustomerCommandValidator(ICustomerRepository customerRepository)
+        public CreateCustomerCommandValidator()
         {
-            _customerRepository = customerRepository;
-
             RuleFor(p => p.CustomerName)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
@@ -29,9 +25,9 @@ namespace VoipProjectEntities.Application.Features.Customers.Commands.CreateCust
                 .NotNull()
                 .MaximumLength(250).WithMessage("{PropertyName} must not exceed 250 characters.");
 
-            RuleFor(p => p.CustomerTypeID)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull();
+            //RuleFor(p => p.CustomerTypeID)
+            //    .NotEmpty().WithMessage("{PropertyName} is required.")
+            //    .NotNull();
 
             //RuleFor(p => p.ISMigrated)
             //    .NotEmpty().WithMessage("{PropertyName} is required.");
@@ -39,16 +35,16 @@ namespace VoipProjectEntities.Application.Features.Customers.Commands.CreateCust
 
             //RuleFor(p => p.ISTrialBalanceOpted)
             //    .NotEmpty().WithMessage("{PropertyName} is required.");
-                
-            RuleFor(p => p.UpdatedAt)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .GreaterThan(DateTime.Now);
 
-            RuleFor(p => p.CreatedAt)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .GreaterThan(DateTime.Today);
+            //RuleFor(p => p.UpdatedAt)
+                //.NotEmpty().WithMessage("{PropertyName} is required.")
+                //.NotNull()
+                //.GreaterThan(DateTime.Today.AddDays(-1)).WithMessage("{PropertyName} is InValid");
+
+            //RuleFor(p => p.CreatedAt)
+            //    .NotEmpty().WithMessage("{PropertyName} is required.")
+            //    .NotNull()
+            //    .GreaterThan(DateTime.Today.AddDays(-1)).WithMessage("{PropertyName} is InValid");
         }
     }
 }

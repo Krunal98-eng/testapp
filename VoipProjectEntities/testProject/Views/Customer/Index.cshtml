@@ -4,12 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="col-md-10 mx-auto">
+    <table class="table">
     <thead>
         <tr>
             <th class="d-none">
@@ -70,6 +66,7 @@
         }
     </tbody>
 </table>
+</div>
 @if (ViewBag.ShowAlert)
 {
     <script>alert("No Customers exist!);</script>
