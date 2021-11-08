@@ -202,81 +202,80 @@ namespace VoipProjectEntities.Persistence
                 UserId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF950F5C}")
             });
 
+            //modelBuilder.Entity<DeviceAgent>().HasData(new DeviceAgent
+            //{
+            //    DeviceAgentId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE7C1}"),
+            //    MacAddress = "ASFDHDS",
+            //    IsWorking = true,
+            //    DeviceProfileType = 1,
+            //    DeviceId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF950F2C}"),
+            //    CreatedAt = DateTime.Today,
+            //    UpdatedAt = DateTime.Now
+            //});
+            //modelBuilder.Entity<DeviceAgent>().HasData(new DeviceAgent
+            //{
+            //    DeviceAgentId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE721}"),
+            //    MacAddress = "ASFDHDFDS",
+            //    IsWorking = true,
+            //    DeviceProfileType = 0,
+            //    DeviceId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF95012C}"),
+            //    CreatedAt = DateTime.Today,
+            //    UpdatedAt = DateTime.Now
+            //});
 
-            modelBuilder.Entity<DeviceAgent>().HasData(new DeviceAgent
-            {
-                DeviceAgentId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE7C1}"),
-                MacAddress = "ASFDHDS",
-                IsWorking = true,
-                DeviceProfileType = 1,
-                DeviceId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF950F2C}"),
-                CreatedAt = DateTime.Today,
-                UpdatedAt = DateTime.Now
-            });
-            modelBuilder.Entity<DeviceAgent>().HasData(new DeviceAgent
-            {
-                DeviceAgentId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE721}"),
-                MacAddress = "ASFDHDFDS",
-                IsWorking = true,
-                DeviceProfileType = 0,
-                DeviceId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF95012C}"),
-                CreatedAt = DateTime.Today,
-                UpdatedAt = DateTime.Now
-            });
-            modelBuilder.Entity<MenuAccess>().HasData(new MenuAccess
-            {
-                MenuAccessId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE722}"),
-                MenuLink = 1,
-                IsAccess = true,
-                CreatedAt = DateTime.Today,
-                UpdatedAt = DateTime.Now
-            });
-            modelBuilder.Entity<MenuAccess>().HasData(new MenuAccess
-            {
-                MenuAccessId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE725}"),
-                MenuLink = 0,
-                IsAccess = false,
-                CreatedAt = DateTime.Today,
-                UpdatedAt = DateTime.Now
-            });
-            modelBuilder.Entity<TrailBalanceCustomer>().HasData(new TrailBalanceCustomer
-            {
-                TrailBalanceCustomerId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE421}"),
-                TransactionType = 0,
-                Date = DateTime.Today,
+            //modelBuilder.Entity<MenuAccess>().HasData(new MenuAccess
+            //{
+            //    MenuAccessId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE722}"),
+            //    MenuLink = 1,
+            //    IsAccess = true,
+            //    CreatedAt = DateTime.Today,
+            //    UpdatedAt = DateTime.Now
+            //});
+            //modelBuilder.Entity<MenuAccess>().HasData(new MenuAccess
+            //{
+            //    MenuAccessId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE725}"),
+            //    MenuLink = 0,
+            //    IsAccess = false,
+            //    CreatedAt = DateTime.Today,
+            //    UpdatedAt = DateTime.Now
+            //});
+            //modelBuilder.Entity<TrailBalanceCustomer>().HasData(new TrailBalanceCustomer
+            //{
+            //    TrailBalanceCustomerId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE421}"),
+            //    TransactionType = 0,
+            //    Date = DateTime.Today,
 
-            });
-            modelBuilder.Entity<TrailBalanceCustomer>().HasData(new TrailBalanceCustomer
-            {
-                TrailBalanceCustomerId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE621}"),
-                TransactionType = 1,
-                Date = DateTime.Today,
+            //});
+            //modelBuilder.Entity<TrailBalanceCustomer>().HasData(new TrailBalanceCustomer
+            //{
+            //    TrailBalanceCustomerId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE621}"),
+            //    TransactionType = 1,
+            //    Date = DateTime.Today,
 
-            });
+            //});
 
-            modelBuilder.Entity<AgentCustomer>().HasData(new AgentCustomer
-            {
-                AgentCustomerID = Guid.Parse("{3448D5A4-0F72-4DD7-BF15-C14A46B26C01}"),
-                AgentName = "Krunal Rane",
-                Password = "123",
-                ISMigratedAt = false,
-                CreatedAt = DateTime.Today,
-                //CustomerId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF950F51}"),
-                UpdatedAt = DateTime.Now
+            //modelBuilder.Entity<AgentCustomer>().HasData(new AgentCustomer
+            //{
+            //    AgentCustomerID = Guid.Parse("{3448D5A4-0F72-4DD7-BF15-C14A46B26C01}"),
+            //    AgentName = "Krunal Rane",
+            //    Password = "123",
+            //    ISMigratedAt = false,
+            //    CreatedAt = DateTime.Today,
+            //    //CustomerId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF950F51}"),
+            //    UpdatedAt = DateTime.Now
 
-            });
-            modelBuilder.Entity<AgentCustomer>().HasData(new AgentCustomer
-            {
-                AgentCustomerID = Guid.Parse("{3448D5A4-0F72-4DD7-BF15-C14A46B26C02}"),
-                AgentName = "Jaideep Sahu",
-                Password = "1234",
-                ISMigratedAt = false,
-                CreatedAt = DateTime.Today,
-                //CustomerId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF950F52}"),
-                UpdatedAt = DateTime.Now
+            //});
+            //modelBuilder.Entity<AgentCustomer>().HasData(new AgentCustomer
+            //{
+            //    AgentCustomerID = Guid.Parse("{3448D5A4-0F72-4DD7-BF15-C14A46B26C02}"),
+            //    AgentName = "Jaideep Sahu",
+            //    Password = "1234",
+            //    ISMigratedAt = false,
+            //    CreatedAt = DateTime.Today,
+            //    //CustomerId = Guid.Parse("{7AEB2C01-FE8E-4B84-A5BA-330BDF950F52}"),
+            //    UpdatedAt = DateTime.Now
 
-            });
-
+            //});
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

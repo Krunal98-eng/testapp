@@ -1,14 +1,12 @@
-﻿using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using VoipProjectEntities.Application.Responses;
-
 
 namespace VoipProjectEntities.Application.Features.Customers.Commands.CreateCustomer
 {
-    public class CreateCustomerCommand : IRequest<Response<CreateCustomerDto>>
+    public class CreateCustomerDto
     {
+        public Guid CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace testProject.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerRepo repo;
+        const string CustomerId = "";
         public CustomerController(ICustomerRepo _repo)
         {
             repo = _repo;
@@ -31,7 +33,7 @@ namespace testProject.Controllers
             }
             else
             {
-               return  ViewBag.ShowAlert = true;
+                return ViewBag.ShowAlert = true;
             }
         }
         #endregion
@@ -40,28 +42,48 @@ namespace testProject.Controllers
         [HttpGet]
         public IActionResult SignUp()
         {
+            ViewBag.ShowAlert = false;
+            ViewBag.ShowAlertEmail = false;
             return View();
         }
 
         [HttpPost]
         public IActionResult SignUp(CustomerModel customer)
         {
-            //customer.CustomerTypeID = 2;
+            List<CustomerModel> CustomerList = repo.ValidateEmail(customer.Email);
 
-            HttpClient HC = new HttpClient();
-            HC.BaseAddress = new Uri("https://localhost:44330/api/Customer");
-
-            var insertedRecord = HC.PostAsJsonAsync<CustomerModel>("Customer", customer);
-            insertedRecord.Wait();
-
-            var recordDisplay = insertedRecord.Result;
-
-            if (recordDisplay.IsSuccessStatusCode)
+            if (CustomerList.Count > 0)
             {
-                return RedirectToAction("Home", "Index");
+                ViewBag.ShowAlertEmail = true;
+                return View();
             }
+            else
+            {
+                CustomerModel Cust = repo.CreateCustomer(customer);
 
-            return View();
+                if (Cust != null)
+                {
+                    MenuAccessModel menu = new MenuAccessModel();
+                    menu.CustomerID = Cust.CustomerId;
+                    menu.MenuLink = MenuLink.ManageCallHistory;
+
+                    if (repo.CreateMenuAccess(menu))
+                    {
+                        return RedirectToAction("Customer", "Login");
+                    }
+                    else
+                    {
+                        repo.DeleteCustomer(Cust.Email);
+                        ViewBag.ShowAlert = true;
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.ShowAlert = true;
+                    return View();
+                }
+            }
         }
         #endregion
 
@@ -69,43 +91,58 @@ namespace testProject.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            ViewBag.ShowAlert = false;
+            ViewBag.ShowAlert = "";
             return View();
         }
 
         [HttpPost]
         public IActionResult Login(CustomerModel customer)
         {
-            int custTypeid = repo.GetEnumValue(Convert.ToString(customer.CustomerTypeID));
+            //int custTypeid = repo.GetEnumValue(Convert.ToString(customer.CustomerTypeID));
 
-            Task<List<CustomerModel>> CustomerList = repo.ValidateLogin(customer);
+            List<CustomerModel> CustomerList = repo.ValidateLogin(customer);
 
-            if (CustomerList.Result.Count > 0)
+            if (CustomerList.Count > 0)
             {
-                return RedirectToAction("Home", "Index");
+                if(CustomerList[0].CustomerTypeID == customer.CustomerTypeID)
+                {
+                    CustomerModel Customer = repo.GetCustomerById(CustomerList[0].CustomerId);
+                    HttpContext.Session.SetString(CustomerId, Customer.CustomerId);
+
+                    return RedirectToAction("Index", "Dashboard");
+                }
+                else
+                {
+                    ViewBag.ShowAlert = "customertype_error";
+                    return View();
+                }
             }
             else
             {
-                ViewBag.ShowAlert = true;
+                ViewBag.ShowAlert = "login_error";
                 return View();
             }
+
         }
         #endregion
 
         #region "Forgot Password"
         [HttpGet]
-        public IActionResult ForgotPassword()
+        public ActionResult ForgotPassword()
         {
             ViewBag.ShowAlert = false;
             return View();
         }
 
         [HttpPost]
-        public IActionResult ForgotPassword(CustomerModel customer)
+        [ActionName("ForgotPassword")]
+        public ActionResult ForgotPasswordPost()
         {
-            Task<List<CustomerModel>> CustomerList = repo.ForgotPassword(customer);
+            string email = Request.Form["Email"];
 
-            if (CustomerList.Result.Count > 0)
+            List<CustomerModel> CustomerList = repo.ValidateEmail(email);
+
+            if (CustomerList.Count > 0)
             {
                 return RedirectToAction("Home", "Index");
             }
@@ -117,38 +154,5 @@ namespace testProject.Controllers
         }
         #endregion
 
-        #region "Create Menu Access"
-        [HttpGet]
-        public IActionResult CreateMenu()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult CreateMenu(MenuAccessModel menuaccess)
-        {
-            //menuaccess.MenuAccessId = Guid.Parse("{BA0EB0EF-B69B-46FD-B8E2-41B4178AE725}");
-            //menuaccess.MenuLink = 2;
-            //menuaccess.IsAccess = false;
-            //menuaccess.CreatedAt = DateTime.Today;
-            //menuaccess.UpdatedAt = DateTime.Now.AddDays(1);
-            //menuaccess.CustomerID = Guid.Parse("{fe98f549-e790-4e9f-aa16-18c2292a2ee9}");
-
-            HttpClient HC = new HttpClient();
-            HC.BaseAddress = new Uri("https://localhost:44330/");
-
-            var insertedRecord = HC.PostAsJsonAsync("api/Menu", menuaccess);
-            insertedRecord.Wait();
-
-            var recordDisplay = insertedRecord.Result;
-
-            if (recordDisplay.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Home", "Index");
-            }
-
-            return View();
-        }
-        #endregion       
     }
 }

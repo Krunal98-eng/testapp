@@ -14,50 +14,43 @@ using VoipProjectEntities.Domain.Entities;
 
 namespace VoipProjectEntities.Application.Features.Customers.Commands.CreateCustomer
 {
-    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Response<Guid>>
+    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Response<CreateCustomerDto>>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
-        private readonly IEmailService _emailService;
-        private readonly ILogger<CreateCustomerCommandHandler> _logger;
-        public CreateCustomerCommandHandler(IMapper mapper, ICustomerRepository customerRepository, IEmailService emailService, ILogger<CreateCustomerCommandHandler> logger)
+
+        public CreateCustomerCommandHandler(IMapper mapper, ICustomerRepository customerRepository)
         {
             _mapper = mapper;
             _customerRepository = customerRepository;
-            _emailService = emailService;
-            _logger = logger;
         }
-        public async Task<Response<Guid>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+
+        public async Task<Response<CreateCustomerDto>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Handle Initiated");
-            var validator = new CreateCustomerCommandValidator(_customerRepository);
+            var createMenuCommandResponse = new Response<CreateCustomerDto>();
+
+            var validator = new CreateCustomerCommandValidator();
             var validationResult = await validator.ValidateAsync(request);
 
             if (validationResult.Errors.Count > 0)
-                throw new Exceptions.ValidationException(validationResult);
-
-            var @customer = _mapper.Map<Customer>(request);
-
-            @customer = await _customerRepository.AddAsync(@customer);
-
-            //Sending email notification to admin address
-            var email = new Email() { To = "gill@snowball.be", Body = $"A new event was created: {request}", Subject = "A new event was created" };
-
-            try
             {
-                await _emailService.SendEmail(email);
+                createMenuCommandResponse.Succeeded = false;
+                createMenuCommandResponse.Errors = new List<string>();
+                foreach (var error in validationResult.Errors)
+                {
+                    createMenuCommandResponse.Errors.Add(error.ErrorMessage);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                //this shouldn't stop the API from doing else so this can be logged
-                _logger.LogError($"Mailing about event {@customer.CustomerId} failed due to an error with the mail service: {ex.Message}");
+                var menu = new Customer() { CreatedAt = request.CreatedAt, UpdatedAt = request.UpdatedAt, CustomerName = request.CustomerName, CustomerTypeID = request.CustomerTypeID, Email = request.Email, ISMigrated = request.ISMigrated, ISTrialBalanceOpted = request.ISTrialBalanceOpted, Password = request.Password };
+                menu = await _customerRepository.AddAsync(menu);
+                createMenuCommandResponse.Data = _mapper.Map<CreateCustomerDto>(menu);
+                createMenuCommandResponse.Succeeded = true;
+                createMenuCommandResponse.Message = "success";
             }
 
-            var response = new Response<Guid>(@customer.CustomerId, "Inserted successfully ");
-
-            _logger.LogInformation("Handle Completed");
-
-            return response;
+            return createMenuCommandResponse;
         }
     }
 }
