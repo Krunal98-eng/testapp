@@ -69,7 +69,7 @@ namespace testProject.Controllers
 
                     if (repo.CreateMenuAccess(menu))
                     {
-                        return RedirectToAction("Customer", "Index");
+                        return RedirectToAction("Customer", "Login");
                     }
                     else
                     {

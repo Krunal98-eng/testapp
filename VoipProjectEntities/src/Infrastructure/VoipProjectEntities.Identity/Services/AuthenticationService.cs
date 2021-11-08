@@ -80,6 +80,25 @@ namespace VoipProjectEntities.Identity.Services
             return response;
         }
 
+        public async Task<FindEmailResponse> FindEmailAsync(FindEmailRequest request)
+        {
+            var user = new ApplicationUser
+            {
+                Email = request.Email
+            };
+
+            var existingEmail = await _userManager.FindByEmailAsync(request.Email);
+
+            if(existingEmail != null)
+            {
+                return new FindEmailResponse() { Email = user.Email };
+            }
+            else
+            {
+                throw new Exception($"Something went wrong in {nameof(FindEmailAsync)}");
+            }
+        }
+
         public async Task<RegistrationResponse> RegisterAsync(RegistrationRequest request)
         {
             var existingUser = await _userManager.FindByNameAsync(request.UserName);
